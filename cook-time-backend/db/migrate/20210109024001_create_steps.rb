@@ -4,7 +4,7 @@ class CreateSteps < ActiveRecord::Migration[6.0]
       t.string :name
       t.text :description
 
-      t.belongs_to :recipes
+      t.belongs_to :recipe
 
       t.timestamps
     end

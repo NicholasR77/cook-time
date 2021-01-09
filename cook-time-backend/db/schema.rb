@@ -24,10 +24,10 @@ ActiveRecord::Schema.define(version: 2021_01_09_024001) do
   create_table "steps", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.integer "recipes_id"
+    t.integer "recipe_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["recipes_id"], name: "index_steps_on_recipes_id"
+    t.index ["recipe_id"], name: "index_steps_on_recipe_id"
   end
 
 end
