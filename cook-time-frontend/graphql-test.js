@@ -12,5 +12,3 @@ fetch('http://localhost:3000/graphql', {
 })
 .then(res => res.json())
 .then(res => console.log(res.data));
-
-console.log('cool');
