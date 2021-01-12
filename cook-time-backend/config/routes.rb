@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
-  resources :steps
-  resources :recipes
+  resources :recipes, only: [:index, :show, :create, :update, :destroy] do
+    resources :steps, only: [:index, :show, :create, :update, :destroy]
+  end
 
   if Rails.env.development?
     mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "graphql#execute"

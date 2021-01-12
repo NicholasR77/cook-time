@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "Recipes", type: :request do
-    before(:each) do
+    before do
         @recipe = FactoryBot.create(:recipe)
         @recipe_params = FactoryBot.attributes_for(:recipe)
     end
@@ -44,8 +44,8 @@ RSpec.describe "Recipes", type: :request do
                 :ingredients => @recipe.ingredients
             }
             patch recipe_path(@recipe), params: { recipe: name_change_params }
-            expect(@recipe.name).to eq 'New Name'
-            expect(response).to have_http_status(404)
+            expect(response).to have_http_status(200)
+            expect(@recipe.name).to eq 'New Name' 
         end
     end
 
