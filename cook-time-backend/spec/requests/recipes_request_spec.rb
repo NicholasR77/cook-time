@@ -8,11 +8,11 @@ RSpec.describe "Recipes", type: :request do
 
     describe '#index' do
         it 'gets all recipes and returns them as a json object' do
+            recipe_two = FactoryBot.create(:recipe)
             get recipes_path
             expect(response).to have_http_status(:success)
             json = JSON.parse(response.body)
-            expect(json.length).to eq 1
-            expect(json['data'][0]['id']).to eq '1'
+            expect(json['json']['data'].length).to eq 2
         end
     end
     
@@ -21,8 +21,7 @@ RSpec.describe "Recipes", type: :request do
             get recipe_path(@recipe)
             expect(response).to have_http_status(200)
             json = JSON.parse(response.body)
-            expect(json.length).to eq 1
-            expect(json['data']['id']).to eq '1'
+            expect(json['json']['data']['id']).to eq '1'
         end
     end
 
@@ -45,7 +44,8 @@ RSpec.describe "Recipes", type: :request do
             }
             patch recipe_path(@recipe), params: { recipe: name_change_params }
             expect(response).to have_http_status(200)
-            expect(@recipe.name).to eq 'New Name' 
+            json = JSON.parse(response.body)
+            expect(json['json']['data']['attributes']['name']).to eq 'New Name'
         end
     end
 

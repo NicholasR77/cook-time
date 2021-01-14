@@ -8,7 +8,7 @@ RSpec.describe "Steps", type: :request do
 
     describe '#index' do
         it 'gets all steps for a recipe id and returns them as a json object' do
-            get recipe_steps_path
+           
         end
     end
 end

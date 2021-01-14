@@ -1,12 +1,18 @@
 class RecipesController < ApplicationController
     def index
         recipes = Recipe.all
-        render json: RecipeSerializer.new(recipes)
+        render json: {
+            status: 200,
+            json: RecipeSerializer.new(recipes)
+        }
     end
 
     def show
         recipe = Recipe.find(params[:id])
-        render json: RecipeSerializer.new(recipe)
+        render json: {
+            status: 200,
+            json: RecipeSerializer.new(recipe)
+        }
     end
 
     def create
@@ -14,7 +20,8 @@ class RecipesController < ApplicationController
 
         if recipe.save
             render json: {
-                status: 201
+                status: 201,
+                json: RecipeSerializer.new(recipe)
             }, status: 201
         else
             render json: {
@@ -29,7 +36,8 @@ class RecipesController < ApplicationController
 
         if recipe.update(recipe_params)
             render json: {
-                status: 200
+                status: 200,
+                json: RecipeSerializer.new(recipe)
             }, status: 200
         else
             render json: {
