@@ -1,4 +1,6 @@
 class RecipesController < ApplicationController
+  before_action :check_recipe_exists, only: %i[show update destroy]
+
   def index
     recipes = Recipe.all
     render json: {
@@ -8,10 +10,9 @@ class RecipesController < ApplicationController
   end
 
   def show
-    recipe = Recipe.find(params[:id])
     render json: {
       status: 200,
-      json: RecipeSerializer.new(recipe)
+      json: RecipeSerializer.new(@recipe)
     }, status: 200
   end
 
@@ -32,12 +33,10 @@ class RecipesController < ApplicationController
   end
 
   def update
-    recipe = Recipe.find(params[:id])
-
-    if recipe.update(recipe_params)
+    if @recipe.update(recipe_params)
       render json: {
         status: 200,
-        json: RecipeSerializer.new(recipe)
+        json: RecipeSerializer.new(@recipe)
       }, status: 200
     else
       render json: {
@@ -48,9 +47,7 @@ class RecipesController < ApplicationController
   end
 
   def destroy
-    recipe = Recipe.find(params[:id])
-
-    if recipe.destroy
+    if @recipe.destroy
       render json: {
         status: 200
       }, status: 200
@@ -61,9 +58,19 @@ class RecipesController < ApplicationController
     end
   end
 
-  private
+  protected
 
   def recipe_params
     params.require(:recipe).permit(:name, :description, :difficulty, :ingredients)
+  end
+
+  def check_recipe_exists
+    @recipe = Recipe.find(params[:id])
+    unless @recipe
+      render json: {
+        error: 'Unable to find the resource.',
+        status: 400
+      }, status: 400
+    end
   end
 end
