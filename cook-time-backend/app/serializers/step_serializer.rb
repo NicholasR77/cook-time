@@ -1,4 +1,5 @@
 class StepSerializer
   include FastJsonapi::ObjectSerializer
-  attributes 
+  attributes :name, :description
+  belongs_to :recipe
 end
