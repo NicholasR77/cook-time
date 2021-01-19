@@ -2,8 +2,7 @@ require 'rails_helper'
 
 RSpec.feature 'Recipes', type: :feature do
   scenario 'a user creates a new recipe' do
-    path = '.../cook-time-frontend/index.html'
-    Capybara.current_session.driver.visit path
+    visit 'http://127.0.0.1:8080/'
     expect {
       click_on 'New Recipe'
       fill_in 'Name', with: 'PB&J'

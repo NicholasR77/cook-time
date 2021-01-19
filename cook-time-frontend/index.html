@@ -66,34 +66,36 @@
             </div>
             </div>
         </div>
+
         <div class="row align-items-start justify-content-evenly">
             <div class="col-sm p-3">
                 <h2>Create Your Own Recipe</h2>
               </div>
             <div class="col-sm p-3 flex sjustify-content-end">
-                <button type="button" class="btn btn-primary">New Recipe</button>
+                <button type="button" id="new-recipe-btn"  class="btn btn-primary">New Recipe</button>
             </div>
           </div>
 
           <div class="row align-items-start justify-content-evenly">
             <div class="col-sm p-3">
-                <form id="new-recipe-form" class="hide test">
+                <form id="new-recipe-form" class="hide" action="http://localhost:3000/recipes" method="POST">
                     <label for="recipe-name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="recipe-name" /><br>
+                    <input type="text" class="form-control" id="recipe-name" name="name"/><br>
                   
                     <label for="recipe-description" class="form-label">Description</label>
-                    <input type="text" class="form-control" id="recipe-description" /><br>
+                    <textarea class="form-control" id="recipe-description" name="description"></textarea><br>
                   
                     <label for="recipe-ingredients" class="form-label">Ingredients</label>
-                    <input type="text" class="form-control" id="recipe-ingredients" /><br>
+                    <textarea type="text" class="form-control" id="recipe-ingredients" name="ingredients"></textarea><br>
                   
                     <label for="recipe-difficulty" class="form-label">Difficulty</label>
-                    <input type="text" class="form-control" id="recipe-difficulty" /><br>
+                    <input type="text" class="form-control" id="recipe-difficulty" name="difficulty"/><br>
                   
                     <button type="submit" class="btn btn-primary">Create Recipe</button>
                 </form>
               </div>
           </div>
+
       </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 </body>
