@@ -5,3 +5,30 @@
 .show {
     display: block;
 }
+
+.card-title {
+    width: 75%;
+}
+
+.top-right-nav {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.top-right-nav .btn {
+    padding: 5px;
+}
+
+.top-right-nav .btn:first-child {
+    padding-right: 10px;
+}
+
+.top-right-nav img {
+    width: 15px;
+    height: 15px;
+}
+
+.btn.new-step {
+    margin-left: 20px;
+}

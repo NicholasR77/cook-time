@@ -3,9 +3,12 @@ class RecipesController < ApplicationController
 
   def index
     recipes = Recipe.all
+    options = {
+      include: [:steps]
+    }
     render json: {
       status: 200,
-      json: RecipeSerializer.new(recipes)
+      json: RecipeSerializer.new(recipes, options)
     }, status: 200
   end
 
