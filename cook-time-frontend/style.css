@@ -32,3 +32,25 @@
 .btn.new-step {
     margin-left: 20px;
 }
+
+.step-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #dee2e6;border-bottom: 1px solid #dee2e6;
+    margin-bottom: 10px;
+}
+
+.step-menu img {
+    width: 15px;
+    height: 15px;
+}
+
+.step-non-form {
+    padding-bottom: 10px;
+}
+
+.recipe-col-right {
+    display: flex;
+    justify-content: flex-end;
+}

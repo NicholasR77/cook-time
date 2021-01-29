@@ -164,7 +164,7 @@ class Recipe {
     
             clearFormData(formNode);
             toggleHideShow(formNode);
-            reset();
+            Recipe.reset();
             console.log({ responseData });
         } catch (error) {
             console.error(error);
@@ -211,7 +211,7 @@ class Recipe {
 
         let node = document.getElementById('recipe-list');
         let el = document.createElement('div');
-        el.classList.add('col-3', 'p-3');
+        el.classList.add('col-4', 'p-3');
         el.id = `rec-${this.id}`
         el.innerHTML = recipe;
         node.appendChild(el);
@@ -325,6 +325,7 @@ class Step {
                     }
                     console.log(newStep);
                     newStep.addStepsToDom();
+                    newStep.addDeleteButtonListener();
                 }    
             }
         }
@@ -378,15 +379,29 @@ class Step {
         hideElement(target1);
         showElement(target2);
 
-        let el = document.querySelector('.step-container');
+        let el = document.querySelector(`#steps-container-${id}`);
         el.innerHTML = '';
         Step.fetchSteps(`${URL}/recipes/${id}/steps`, id);
     }
 
+    async deleteStep() {
+        const stepId = this.id;
+        const recipeId = this.recipeId;
+
+        fetch(`${URL}/recipes/${recipeId}/steps/${stepId}`, {
+            method: 'DELETE',
+        })
+        .then(res => res.json()) // or res.json()
+        .then(res => console.log(res));
+    
+        document.getElementById(`step-non-form-${stepId}`).remove();
+    }
+
     addStepsToDom() {
         const step = `
-            <h2>${this.name}</h2>
-            <p>${this.description}</p>`
+            <div id="step-menu-${this.id}" class="step-menu"><h3>${this.name}</h3><button id='step-delete-${this.id}' delete-data-id='${this.id}' recipe-data-id='${this.recipeId}' class='btn btn-delete'><img src='imgs/delete.png'/></button></div>
+            <p>Description: ${this.description}</p>
+            `
 
         let node = document.getElementById(`steps-container-${this.recipeId}`);
         let el = document.createElement('div');
@@ -395,6 +410,15 @@ class Step {
         el.innerHTML = step;
         node.appendChild(el);
     }
+
+    addDeleteButtonListener() {
+        const button = document.getElementById(`step-delete-${this.id}`);
+
+        button.addEventListener('click', ()=> {
+            this.deleteStep();
+        });
+    }
+ 
 }
 
 // Utilities
