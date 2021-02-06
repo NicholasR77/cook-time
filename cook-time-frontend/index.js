@@ -1,13 +1,8 @@
 URL = 'http://localhost:3000'; 
+class Recipes {
+    static allRecipes = [];
 
-
-class Recipe {
-    constructor(id, name, description, ingredients, difficulty) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.ingredients = ingredients;
-        this.difficulty = difficulty;
+    constructor() {
     }
 
     static async fetchRecipes() {
@@ -17,7 +12,7 @@ class Recipe {
             return response.json();
         }).then(function(data) {
             console.log(data);
-            return Recipe.createRecipes(data['json']);
+            return Recipes.createRecipes(data['json']);
         });
     }
 
@@ -35,20 +30,56 @@ class Recipe {
                                 newRecipe[`${k3}`] = v3;
                             }
                         }
-                        
                     }
-                    console.log(newRecipe);
-                    newRecipe.addRecipesToDom();
-                    newRecipe.addDeleteButtonListener();
-                    newRecipe.addEditButtonListener();
-                    newRecipe.addFormSubmitListener();
-                    newRecipe.addViewStepsListener();
-                    newRecipe.addNewStepFormToDom();
-                    newRecipe.addShowHideStepFormListener();
-                    newRecipe.addStepFormSubmitListener();
+                    Recipes.addRecipe(newRecipe);
                 }
             }
         }
+        Recipes.sortRecipes();
+        Recipes.addRecipesFunctions();
+    }
+
+    static addRecipe(recipe){
+        Recipes.allRecipes.push(recipe);
+    }
+
+    static sortRecipes(){
+        Recipes.allRecipes.sort(function(a, b){
+            if(a.name < b.name) { return -1; }
+            if(a.name > b.name) { return 1; }
+            return 0;
+        })
+        console.log(this.allRecipes);
+    }
+
+    static reset() {
+        let el = document.getElementById('recipe-list');
+        el.innerHTML = '';
+        Recipes.allRecipes = [];
+        Recipes.fetchRecipes();
+    }
+
+    static addRecipesFunctions() {
+        Recipes.allRecipes.forEach(function(recipe){
+            recipe.addRecipeToDom();
+            recipe.addDeleteButtonListener();
+            recipe.addEditButtonListener();
+            recipe.addFormSubmitListener();
+            recipe.addViewStepsListener();
+            recipe.addNewStepFormToDom();
+            recipe.addShowHideStepFormListener();
+            recipe.addStepFormSubmitListener();
+        })
+    }
+}
+
+class Recipe {
+    constructor(id, name, description, ingredients, difficulty) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.ingredients = ingredients;
+        this.difficulty = difficulty;
     }
 
     static addShowHideRecipeFormListener() {
@@ -80,7 +111,7 @@ class Recipe {
             showSuccessMessage();
             clearFormData(formNode);
             toggleHideShow(formNode);
-            Recipe.reset();
+            Recipes.reset();
             console.log({ responseData });
         } catch (error) {
             console.error(error);
@@ -108,12 +139,6 @@ class Recipe {
         }
 
         return response.json();
-    }
-
-    static reset() {
-        let el = document.getElementById('recipe-list');
-        el.innerHTML = '';
-        Recipe.fetchRecipes();
     }
 
     async patchRecipe({ url, formData }) {
@@ -148,6 +173,7 @@ class Recipe {
         .then(res => console.log(res));
     
         document.getElementById(`rec-${id}`).remove();
+        Recipes.allRecipes = [];
     }
 
     async handleEditFormSubmit(event, formNode) {
@@ -164,14 +190,14 @@ class Recipe {
     
             clearFormData(formNode);
             toggleHideShow(formNode);
-            Recipe.reset();
+            Recipes.reset();
             console.log({ responseData });
         } catch (error) {
             console.error(error);
         }
     }
     
-    addRecipesToDom() {
+    addRecipeToDom() {
         const recipe =
         `<div class='card'>
             <div class='card-body'>
@@ -476,7 +502,7 @@ async function addShowHideListener(listenerDomNode, targetDomNode) {
 function init() {
     Recipe.addShowHideRecipeFormListener();
     Recipe.addRecipeFormSubmit();
-    Recipe.fetchRecipes();
+    Recipes.fetchRecipes();
 };
 
 init();
